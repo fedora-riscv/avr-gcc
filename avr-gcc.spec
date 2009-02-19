@@ -1,8 +1,8 @@
-%define target avr
+	%define target avr
 
 Name:           %{target}-gcc
-Version:        4.1.2
-Release:        6%{?dist}
+Version:        4.3.3
+Release:        1%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -10,10 +10,10 @@ URL:            http://gcc.gnu.org/
 Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-core-%{version}.tar.bz2
 Source1:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-g++-%{version}.tar.bz2
 Source2:        README.fedora
-Patch0:         avr-gcc-4.1.2-newdevices.patch
-Patch1:         avr-gcc-4.1.2-attribute_alias.patch
+
+Patch0:		avr-gcc-4.3.3-inline-change.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
-BuildRequires:  %{target}-binutils >= 2.13, zlib-devel gawk
+BuildRequires:  %{target}-binutils >= 2.13, zlib-devel gawk gmp-devel mpfr-devel
 Requires:       %{target}-binutils >= 2.13
 
 %description
@@ -36,8 +36,8 @@ platform.
 %prep
 %setup -q -c -a 1
 pushd gcc-%{version}
+
 %patch0 -p0
-%patch1 -p0
 sed -i 's/VERSUFFIX ""/VERSUFFIX " (Fedora %{version}-%{release})"/' \
   gcc/version.c
 contrib/gcc_update --touch
@@ -86,7 +86,7 @@ popd
 # we don't want these as we are a cross version
 rm -r $RPM_BUILD_ROOT%{_infodir}
 rm -r $RPM_BUILD_ROOT%{_mandir}/man7
-rm    $RPM_BUILD_ROOT/usr/lib/libiberty.a
+rm    $RPM_BUILD_ROOT%{_libdir}/libiberty.a
 # and these aren't usefull for embedded targets
 rm -r $RPM_BUILD_ROOT/usr/lib/gcc/%{target}/%{version}/install-tools
 rm -r $RPM_BUILD_ROOT%{_libexecdir}/gcc/%{target}/%{version}/install-tools
@@ -122,6 +122,14 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Feb 14 2009 Thibault North <tnorth AT fedoraproject DOT org> - 4.3.3-1
+- New upstream release: upgraded to 4.3.3
+- Add dependencies to gmp-devel and mpfr-devel as build requires
+- Remove patches (included upstream)
+
+* Fri Oct 3 2008 Thibault North <tnorth AT fedoraproject DOT org> - 4.1.2-7
+- Rebuild for gcc 4.3
+
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 4.1.2-6
 - Autorebuild for GCC 4.3
 
