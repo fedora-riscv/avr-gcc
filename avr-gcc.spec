@@ -1,8 +1,8 @@
 	%define target avr
 
 Name:           %{target}-gcc
-Version:        4.3.3
-Release:        3%{?dist}
+Version:        4.4.2
+Release:        2%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -11,7 +11,6 @@ Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-core-%{version}.tar
 Source1:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-g++-%{version}.tar.bz2
 Source2:        README.fedora
 
-Patch0:		avr-gcc-4.3.3-inline-change.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 BuildRequires:  %{target}-binutils >= 2.13, zlib-devel gawk gmp-devel mpfr-devel
 Requires:       %{target}-binutils >= 2.13
@@ -37,7 +36,6 @@ platform.
 %setup -q -c -a 1
 pushd gcc-%{version}
 
-%patch0 -p0
 sed -i 's/VERSUFFIX ""/VERSUFFIX " (Fedora %{version}-%{release})"/' \
   gcc/version.c
 contrib/gcc_update --touch
@@ -122,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Nov 20 2009 Thibault North <tnorth AT fedoraproject DOT org> - 4.4.2-1
+- New upstream release
+
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.3.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
