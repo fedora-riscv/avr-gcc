@@ -2,7 +2,7 @@
 
 Name:           %{target}-gcc
 Version:        4.3.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -11,7 +11,8 @@ Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-core-%{version}.tar
 Source1:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-g++-%{version}.tar.bz2
 Source2:        README.fedora
 
-Patch0:		avr-gcc-4.3.3-inline-change.patch
+Patch0:         avr-gcc-4.3.3-inline-change.patch
+Patch1:         avr-gcc-4.3.3-progmem.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 BuildRequires:  %{target}-binutils >= 2.13, zlib-devel gawk gmp-devel mpfr-devel
 Requires:       %{target}-binutils >= 2.13
@@ -38,6 +39,7 @@ platform.
 pushd gcc-%{version}
 
 %patch0 -p0
+%patch1 -p0
 sed -i 's/VERSUFFIX ""/VERSUFFIX " (Fedora %{version}-%{release})"/' \
   gcc/version.c
 contrib/gcc_update --touch
@@ -122,6 +124,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan 20 2010 Thibault North <tnorth AT fedoraproject DOT org> - 4.3.3-3
+- Progmem patch (thanks Benedikt Gollatz)
+
 * Mon Feb 23 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.3.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
