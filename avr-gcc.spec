@@ -2,7 +2,7 @@
 
 Name:           %{target}-gcc
 Version:        4.5.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -10,6 +10,7 @@ URL:            http://gcc.gnu.org/
 Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-core-%{version}.tar.bz2
 Source1:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-g++-%{version}.tar.bz2
 Source2:        README.fedora
+Patch0:         avr-gcc-4.5.0-new_devices.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 BuildRequires:  %{target}-binutils >= 2.13, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel
@@ -35,6 +36,7 @@ platform.
 %prep
 %setup -q -c -a 1
 pushd gcc-%{version}
+%patch0 -p0
 
 contrib/gcc_update --touch
 popd
@@ -120,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Jul 11 2010 Thibault North <tnorth@fedoraproject.org> - 4.5.0-2
+- Add patch of Eric Weddington to support new devices and compile last avr-libc
+
 * Fri Apr 16 2010 Thibault North <tnorth@fedoraproject.org> - 4.5.0-1
 - New upstream release
 - New build dependency: libmpc-devel
