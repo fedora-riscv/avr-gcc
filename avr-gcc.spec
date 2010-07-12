@@ -1,7 +1,7 @@
-	%define target avr
+%define target avr
 
 Name:           %{target}-gcc
-Version:        4.4.2
+Version:        4.5.0
 Release:        2%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
@@ -10,9 +10,10 @@ URL:            http://gcc.gnu.org/
 Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-core-%{version}.tar.bz2
 Source1:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-g++-%{version}.tar.bz2
 Source2:        README.fedora
+Patch0:         avr-gcc-4.5.0-new_devices.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
-BuildRequires:  %{target}-binutils >= 2.13, zlib-devel gawk gmp-devel mpfr-devel
+BuildRequires:  %{target}-binutils >= 2.13, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel
 Requires:       %{target}-binutils >= 2.13
 
 %description
@@ -35,9 +36,8 @@ platform.
 %prep
 %setup -q -c -a 1
 pushd gcc-%{version}
+%patch0 -p0
 
-sed -i 's/VERSUFFIX ""/VERSUFFIX " (Fedora %{version}-%{release})"/' \
-  gcc/version.c
 contrib/gcc_update --touch
 popd
 cp -a %{SOURCE2} .
@@ -70,7 +70,9 @@ CC="%{__cc} ${RPM_OPT_FLAGS}" \
 ../gcc-%{version}/configure --prefix=%{_prefix} --mandir=%{_mandir} \
   --infodir=%{_infodir} --target=%{target} --enable-languages=c,c++ \
   --disable-nls --disable-libssp --with-system-zlib \
-  --enable-version-specific-runtime-libs
+  --enable-version-specific-runtime-libs \
+  --with-pkgversion="Fedora %{version}-%{release}" \
+  --with-bugurl="https://bugzilla.redhat.com/"
 # In general, building GCC is not smp-safe
 make
 popd
@@ -120,6 +122,14 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Jul 11 2010 Thibault North <tnorth@fedoraproject.org> - 4.5.0-2
+- Add patch of Eric Weddington to support new devices and compile last avr-libc
+
+* Fri Apr 16 2010 Thibault North <tnorth@fedoraproject.org> - 4.5.0-1
+- New upstream release
+- New build dependency: libmpc-devel
+- Fix package version specification
+
 * Fri Nov 20 2009 Thibault North <tnorth AT fedoraproject DOT org> - 4.4.2-1
 - New upstream release
 
