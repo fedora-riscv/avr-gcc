@@ -1,8 +1,8 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        4.5.0
-Release:        2%{?dist}
+Version:        4.5.1
+Release:        1%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -122,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Aug 3 2010 Thibault North <tnorth@fedoraproject.org> - 4.5.1-1
+- Updated to 4.5.1
+
 * Sun Jul 11 2010 Thibault North <tnorth@fedoraproject.org> - 4.5.0-2
 - Add patch of Eric Weddington to support new devices and compile last avr-libc
 
