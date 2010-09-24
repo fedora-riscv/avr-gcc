@@ -2,7 +2,7 @@
 
 Name:           %{target}-gcc
 Version:        4.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -11,6 +11,7 @@ Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-core-%{version}.tar
 Source1:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-g++-%{version}.tar.bz2
 Source2:        README.fedora
 Patch0:         avr-gcc-4.5.0-new_devices.patch
+Patch1:         avr-gcc-4.5.1-register-fix.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 BuildRequires:  %{target}-binutils >= 2.13, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel
@@ -37,6 +38,7 @@ platform.
 %setup -q -c -a 1
 pushd gcc-%{version}
 %patch0 -p0
+%patch1 -p1
 
 contrib/gcc_update --touch
 popd
@@ -122,6 +124,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Sep 24 2010 Thibault North <tnorth@fedoraproject.org> - 4.5.1-2
+- Fix bug #637019 (gcc bug #45263) with the patch of Alastair D'Silva
+
 * Tue Aug 3 2010 Thibault North <tnorth@fedoraproject.org> - 4.5.1-1
 - Updated to 4.5.1
 
