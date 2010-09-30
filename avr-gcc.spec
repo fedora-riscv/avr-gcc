@@ -2,7 +2,7 @@
 
 Name:           %{target}-gcc
 Version:        4.5.1
-Release:        2%{?dist}
+Release:        2%{?dist}.1
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -124,6 +124,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 29 2010 jkeating - 4.5.1-2.1
+- Rebuilt for gcc bug 634757
+
 * Fri Sep 24 2010 Thibault North <tnorth@fedoraproject.org> - 4.5.1-2
 - Fix bug #637019 (gcc bug #45263) with the patch of Alastair D'Silva
 
