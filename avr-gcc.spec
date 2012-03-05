@@ -1,8 +1,8 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        4.6.2
-Release:        2%{?dist}
+Version:        4.6.3
+Release:        1%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -124,6 +124,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar  5 2012 Tom Callaway <spot@fedoraproject.org> - 4.6.3-1
+- update to 4.6.3
+
 * Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.6.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
