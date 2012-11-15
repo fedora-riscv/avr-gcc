@@ -1,21 +1,20 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        4.6.3
+Version:        4.7.2
 Release:        1%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
 URL:            http://gcc.gnu.org/
-Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-core-%{version}.tar.bz2
-Source1:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-g++-%{version}.tar.bz2
+Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.bz2
 Source2:        README.fedora
 
 Patch0:         avr-gcc-4.5.3-mint8.patch
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
-BuildRequires:  %{target}-binutils >= 1:2.20, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel
-Requires:       %{target}-binutils >= 1:2.20
+BuildRequires:  %{target}-binutils >= 1:2.23, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel, flex
+Requires:       %{target}-binutils >= 1:2.23
+Provides:       bundled(libiberty)
 
 %description
 This is a Cross Compiling version of GNU GCC, which can be used to
@@ -35,7 +34,7 @@ platform.
 
 
 %prep
-%setup -q -c -a 1
+%setup -q -c
 pushd gcc-%{version}
 
 %patch0 -p0
@@ -75,8 +74,8 @@ CC="%{__cc} ${RPM_OPT_FLAGS}" \
   --enable-version-specific-runtime-libs \
   --with-pkgversion="Fedora %{version}-%{release}" \
   --with-bugurl="https://bugzilla.redhat.com/"
-# In general, building GCC is not smp-safe
-make
+# In general, building GCC is not always smp-safe, but give it initial boost anyway
+make %{?_smp_mflags} || make
 popd
 
 
@@ -90,8 +89,8 @@ rm -r $RPM_BUILD_ROOT%{_infodir}
 rm -r $RPM_BUILD_ROOT%{_mandir}/man7
 rm    $RPM_BUILD_ROOT%{_libdir}/libiberty.a
 # and these aren't usefull for embedded targets
-rm -r $RPM_BUILD_ROOT/usr/lib/gcc/%{target}/%{version}/install-tools
-rm -r $RPM_BUILD_ROOT%{_libexecdir}/gcc/%{target}/%{version}/install-tools
+rm -r $RPM_BUILD_ROOT/usr/lib/gcc/%{target}/%{version}/install-tools ||:
+rm -r $RPM_BUILD_ROOT%{_libexecdir}/gcc/%{target}/%{version}/install-tools ||:
 
 %define __os_install_post . ./os_install_post
 
@@ -124,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 15 2012 Michal Hlavinka <mhlavink@redhat.com> - 4.7.2-1
+- updated to 4.7.2
+
 * Mon Mar  5 2012 Tom Callaway <spot@fedoraproject.org> - 4.6.3-1
 - update to 4.6.3
 
