@@ -1,8 +1,8 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        4.7.2
-Release:        1%{?dist}
+Version:        4.7.3
+Release:        2%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -13,6 +13,8 @@ Source2:        README.fedora
 Patch0:         avr-gcc-4.5.3-mint8.patch
 
 BuildRequires:  %{target}-binutils >= 1:2.23, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel, flex
+#for autoreconf:
+BuildRequires:  gettext-devel autoconf automake
 Requires:       %{target}-binutils >= 1:2.23
 Provides:       bundled(libiberty)
 
@@ -35,8 +37,9 @@ platform.
 
 %prep
 %setup -q -c
-pushd gcc-%{version}
+[ -d gcc-%{version} ] || mv gcc-4.7-* gcc-%{version}
 
+pushd gcc-%{version}
 %patch0 -p0
 
 contrib/gcc_update --touch
@@ -65,6 +68,12 @@ sed -e 's,^[ ]*/usr/lib/rpm.*/brp-strip,./brp-strip,' \
 
 
 %build
+pushd gcc-%{version}
+acv=$(autoreconf --version | head -n1)
+acv=${acv##* }
+sed -i "/_GCC_AUTOCONF_VERSION/s/2.64/$acv/" config/override.m4
+autoreconf -fiv
+popd
 mkdir -p gcc-%{target}
 pushd gcc-%{target}
 CC="%{__cc} ${RPM_OPT_FLAGS}" \
@@ -123,6 +132,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jun 12 2013 Michal Hlavinka <mhlavink@redhat.com> - 4.7.3-2
+- rebuilt with real 4.7.3 sources
+
+* Fri Apr 19 2013 Michal Hlavinka <mhlavink@redhat.com> - 4.7.3-1
+- fix aarch64 support (#925063)
+
 * Thu Nov 15 2012 Michal Hlavinka <mhlavink@redhat.com> - 4.7.2-2
 - updated to 4.7.2
 
