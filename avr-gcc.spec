@@ -1,8 +1,8 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        4.7.3
-Release:        2%{?dist}
+Version:        4.8.1
+Release:        1%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -133,6 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jun 24 2013 Michal Hlavinka <mhlavink@redhat.com> - 4.8.1-1
+- updated to 4.8.1
+
 * Wed Jun 12 2013 Michal Hlavinka <mhlavink@redhat.com> - 4.7.3-2
 - rebuilt with real 4.7.3 sources
 
