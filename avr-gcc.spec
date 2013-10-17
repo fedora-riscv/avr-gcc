@@ -1,8 +1,8 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        4.8.1
-Release:        2%{?dist}
+Version:        4.8.2
+Release:        1%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -133,6 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 17 2013 Michal Hlavinka <mhlavink@redhat.com> - 4.8.2-1
+- updated to 4.8.2
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.8.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
@@ -262,5 +265,5 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Apr 25 2007 Lennart Kneppers <lennartkneppers@gmail.com> 4.1.2-2
 - Minor changes
 
-* Thu Apr 20 2007 Koos Termeulen <koostermeulen@gmail.com> 4.1.2-1
+* Fri Apr 20 2007 Koos Termeulen <koostermeulen@gmail.com> 4.1.2-1
 - Initial release
