@@ -2,7 +2,7 @@
 
 Name:           %{target}-gcc
 Version:        4.8.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -11,6 +11,7 @@ Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.bz2
 Source2:        README.fedora
 
 Patch0:         avr-gcc-4.5.3-mint8.patch
+Patch1:         avr-gcc-4.8.2-misspelled.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 BuildRequires:  %{target}-binutils >= 1:2.23, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel, flex
@@ -42,6 +43,7 @@ platform.
 
 pushd gcc-%{version}
 %patch0 -p0
+%patch1 -p2 -b .misspelled
 
 contrib/gcc_update --touch
 popd
@@ -133,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Mar 05 2014 Michal Hlavinka <mhlavink@redhat.com> - 4.8.2-2
+- silent false positive warnings about misspelled __vector_NN
+
 * Thu Oct 17 2013 Michal Hlavinka <mhlavink@redhat.com> - 4.8.2-1
 - updated to 4.8.2
 
