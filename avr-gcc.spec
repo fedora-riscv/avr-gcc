@@ -1,8 +1,8 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        4.8.2
-Release:        2%{?dist}
+Version:        4.9.1
+Release:        1%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -11,7 +11,6 @@ Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.bz2
 Source2:        README.fedora
 
 Patch0:         avr-gcc-4.5.3-mint8.patch
-Patch1:         avr-gcc-4.8.2-misspelled.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 BuildRequires:  %{target}-binutils >= 1:2.23, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel, flex
@@ -43,7 +42,6 @@ platform.
 
 pushd gcc-%{version}
 %patch0 -p0
-%patch1 -p2 -b .misspelled
 
 contrib/gcc_update --touch
 popd
@@ -99,7 +97,7 @@ popd
 # we don't want these as we are a cross version
 rm -r $RPM_BUILD_ROOT%{_infodir}
 rm -r $RPM_BUILD_ROOT%{_mandir}/man7
-rm    $RPM_BUILD_ROOT%{_libdir}/libiberty.a
+rm    $RPM_BUILD_ROOT%{_libdir}/libiberty.a ||:
 # and these aren't usefull for embedded targets
 rm -r $RPM_BUILD_ROOT/usr/lib/gcc/%{target}/%{version}/install-tools ||:
 rm -r $RPM_BUILD_ROOT%{_libexecdir}/gcc/%{target}/%{version}/install-tools ||:
@@ -135,10 +133,19 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Aug 13 2014 Michal Hlavinka <mhlavink@redhat.com> - 4.9.1-1
+- updated to 4.9.1
+
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Tue Apr 29 2014 Michal Hlavinka <mhlavink@redhat.com> - 4.9.0-1
+- updated to 4.9.0
+
 * Wed Mar 05 2014 Michal Hlavinka <mhlavink@redhat.com> - 4.8.2-2
 - silent false positive warnings about misspelled __vector_NN
 
-* Thu Oct 17 2013 Michal Hlavinka <mhlavink@redhat.com> - 4.8.2-1
+* Wed Oct 16 2013 Michal Hlavinka <mhlavink@redhat.com> - 4.8.2-1
 - updated to 4.8.2
 
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.8.1-2
