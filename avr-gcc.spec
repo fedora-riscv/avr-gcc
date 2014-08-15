@@ -2,7 +2,7 @@
 
 Name:           %{target}-gcc
 Version:        4.9.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -133,6 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Aug 15 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.9.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Wed Aug 13 2014 Michal Hlavinka <mhlavink@redhat.com> - 4.9.1-1
 - updated to 4.9.1
 
