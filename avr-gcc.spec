@@ -1,8 +1,8 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        4.9.1
-Release:        2%{?dist}
+Version:        4.9.2
+Release:        1%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -133,6 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 30 2014 Michal Hlavinka <mhlavink@redhat.com> - 4.9.2-1
+- updated to 4.9.2
+
 * Tue Sep 02 2014 Michal Hlavinka <mhlavink@redhat.com> - 4.9.1-2
 - update workaround that prevents stripping of avr libraries (#1134394)
 
