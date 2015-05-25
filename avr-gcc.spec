@@ -1,7 +1,7 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        4.9.2
+Version:        5.1.0
 Release:        1%{?dist}
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
@@ -98,6 +98,7 @@ popd
 rm -r $RPM_BUILD_ROOT%{_infodir}
 rm -r $RPM_BUILD_ROOT%{_mandir}/man7
 rm    $RPM_BUILD_ROOT%{_libdir}/libiberty.a ||:
+rm    $RPM_BUILD_ROOT%{_libdir}/libcc1* ||:
 # and these aren't usefull for embedded targets
 rm -r $RPM_BUILD_ROOT/usr/lib/gcc/%{target}/%{version}/install-tools ||:
 rm -r $RPM_BUILD_ROOT%{_libexecdir}/gcc/%{target}/%{version}/install-tools ||:
@@ -133,6 +134,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon May 25 2015 Michal Hlavinka <mhlavink@redhat.com> - 5.1.0-1
+- updated to 5.1.0
+
+* Sat May 02 2015 Kalev Lember <kalevlember@gmail.com> - 4.9.2-2
+- Rebuilt for GCC 5 C++11 ABI change
+
 * Thu Oct 30 2014 Michal Hlavinka <mhlavink@redhat.com> - 4.9.2-1
 - updated to 4.9.2
 
