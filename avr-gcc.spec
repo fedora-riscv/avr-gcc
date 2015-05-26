@@ -77,15 +77,14 @@ autoreconf -fiv
 popd
 mkdir -p gcc-%{target}
 pushd gcc-%{target}
-CC="%{__cc} ${RPM_OPT_FLAGS}" \
+CC="%{__cc} ${RPM_OPT_FLAGS} -fno-stack-protector" \
 ../gcc-%{version}/configure --prefix=%{_prefix} --mandir=%{_mandir} \
   --infodir=%{_infodir} --target=%{target} --enable-languages=c,c++ \
   --disable-nls --disable-libssp --with-system-zlib \
   --enable-version-specific-runtime-libs \
   --with-pkgversion="Fedora %{version}-%{release}" \
   --with-bugurl="https://bugzilla.redhat.com/"
-# In general, building GCC is not always smp-safe, but give it initial boost anyway
-make %{?_smp_mflags} || make
+make
 popd
 
 
