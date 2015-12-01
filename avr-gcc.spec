@@ -1,8 +1,9 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        5.2.0
+Version:        4.9.3
 Release:        1%{?dist}
+Epoch:          1
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
 License:        GPLv2+
@@ -12,7 +13,6 @@ Source2:        README.fedora
 
 Patch0:         avr-gcc-4.5.3-mint8.patch
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 BuildRequires:  %{target}-binutils >= 1:2.23, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel, flex
 #for autoreconf:
 BuildRequires:  gettext-devel autoconf automake
@@ -28,7 +28,7 @@ native %{_arch} platform.
 %package c++
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 Group:          Development/Languages
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name} = %{epoch}:%{version}-%{release}
 
 %description c++
 This package contains the Cross Compiling version of g++, which can be used to
@@ -133,6 +133,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Dec 02 2015 Michal Hlavinka <mhlavink@redhat.com> - 1:4.9.3-1
+- downgrade avr-gcc to 4.9.3, because 5.1.x+ requires avr-libc 1.8.1+,
+  but there are no atmel patches for that version
+
 * Wed Sep 02 2015 Michal Hlavinka <mhlavink@redhat.com> - 5.2.0-1
 - updated to 5.2.0
 
