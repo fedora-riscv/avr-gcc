@@ -1,7 +1,7 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        4.9.3
+Version:        6.2.0
 Release:        1%{?dist}
 Epoch:          1
 Summary:        Cross Compiling GNU GCC targeted at %{target}
@@ -133,6 +133,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Nov 13 2016 Michal Hlavinka <mhlavink@redhat.com> - 1:6.2.0-1
+- updated to 6.2.0
+
+* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.9.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Tue Dec 02 2015 Michal Hlavinka <mhlavink@redhat.com> - 1:4.9.3-1
 - downgrade avr-gcc to 4.9.3, because 5.1.x+ requires avr-libc 1.8.1+,
   but there are no atmel patches for that version
