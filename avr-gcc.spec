@@ -1,7 +1,7 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        6.2.0
+Version:        6.3.0
 Release:        1%{?dist}
 Epoch:          1
 Summary:        Cross Compiling GNU GCC targeted at %{target}
@@ -12,6 +12,7 @@ Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.bz2
 Source2:        README.fedora
 
 Patch0:         avr-gcc-4.5.3-mint8.patch
+Patch1: avr-gcc-6.3-compile7.patch
 
 BuildRequires:  %{target}-binutils >= 1:2.23, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel, flex
 #for autoreconf:
@@ -42,6 +43,7 @@ platform.
 
 pushd gcc-%{version}
 %patch0 -p0
+%patch1 -p2 -b .compile7
 
 contrib/gcc_update --touch
 popd
@@ -133,6 +135,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Mar 09 2017 Michal Hlavinka <mhlavink@redhat.com> - 1:6.3.0-1
+- updated to 6.3.0
+
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:6.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Sun Nov 13 2016 Michal Hlavinka <mhlavink@redhat.com> - 1:6.2.0-1
 - updated to 6.2.0
 
