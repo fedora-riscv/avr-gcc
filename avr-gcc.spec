@@ -1,8 +1,8 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        7.4.0
-Release:        5%{?dist}
+Version:        9.2.0
+Release:        1%{?dist}
 Epoch:          1
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 License:        GPLv2+
@@ -40,7 +40,7 @@ platform.
 [ -d gcc-%{version} ] || mv gcc-4.7-* gcc-%{version}
 
 pushd gcc-%{version}
-%patch0 -p0
+%patch0 -p2 -b .mint8
 
 contrib/gcc_update --touch
 popd
@@ -126,6 +126,12 @@ rm -r $RPM_BUILD_ROOT%{_libexecdir}/gcc/%{target}/%{version}/install-tools ||:
 
 
 %changelog
+* Wed Aug 21 2019 Michal Hlavinka <mhlavink@redhat.com> - 1:9.2.0-1
+- gcc updated to 9.2.0
+
+* Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1:7.4.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Mon Feb 04 2019 Michal Hlavinka <mhlavink@redhat.com> - 1:7.4.0-5
 - update to 7.4.0
 
