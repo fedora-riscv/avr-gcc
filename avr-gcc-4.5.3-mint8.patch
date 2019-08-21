@@ -1,6 +1,7 @@
---- gcc/config/avr/avr.h.old	2011-05-01 14:39:19.000000000 +0400
-+++ gcc/config/avr/avr.h	2011-05-01 16:33:36.000000000 +0400
-@@ -175,6 +175,9 @@ 
+diff -up avr-gcc-9.2.0/gcc-9.2.0/gcc/config/avr/avr.h.mint8 avr-gcc-9.2.0/gcc-9.2.0/gcc/config/avr/avr.h
+--- avr-gcc-9.2.0/gcc-9.2.0/gcc/config/avr/avr.h.mint8	2019-01-01 13:31:55.000000000 +0100
++++ avr-gcc-9.2.0/gcc-9.2.0/gcc/config/avr/avr.h	2019-08-21 10:46:22.765490163 +0200
+@@ -149,6 +149,9 @@ FIXME: DRIVER_SELF_SPECS has changed.
  #define SIZE_TYPE (INT_TYPE_SIZE == 8 ? "long unsigned int" : "unsigned int")
  #define PTRDIFF_TYPE (INT_TYPE_SIZE == 8 ? "long int" :"int")
  
@@ -10,11 +11,12 @@
  #define WCHAR_TYPE_SIZE 16
  
  #define FIRST_PSEUDO_REGISTER 36
---- gcc/defaults.h.old	2011-05-01 14:39:19.000000000 +0400
-+++ gcc/defaults.h	2011-05-01 16:33:36.000000000 +0400
-@@ -526,17 +526,21 @@ 
-    affect C++ name mangling because in C++ these are distinct types
-    not typedefs.  */
+diff -up avr-gcc-9.2.0/gcc-9.2.0/gcc/defaults.h.mint8 avr-gcc-9.2.0/gcc-9.2.0/gcc/defaults.h
+--- avr-gcc-9.2.0/gcc-9.2.0/gcc/defaults.h.mint8	2019-08-21 10:46:22.766490159 +0200
++++ avr-gcc-9.2.0/gcc-9.2.0/gcc/defaults.h	2019-08-21 10:50:33.058604195 +0200
+@@ -587,17 +587,21 @@ see the files COPYING3 and COPYING.RUNTI
+ #define CHAR8_TYPE "unsigned char"
+ #endif
  
 +#ifndef CHAR16_TYPE
  #ifdef UINT_LEAST16_TYPE
@@ -34,4 +36,3 @@
  
  #ifndef WCHAR_TYPE
  #define WCHAR_TYPE "int"
-
