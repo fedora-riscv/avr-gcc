@@ -1,8 +1,8 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        9.2.0
-Release:        3%{?dist}
+Version:        10.2.0
+Release:        1%{?dist}
 Epoch:          1
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 License:        GPLv2+
@@ -11,6 +11,7 @@ Source0:        ftp://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.xz
 Source2:        README.fedora
 
 Patch0:         avr-gcc-4.5.3-mint8.patch
+Patch1:		avr-gcc-config.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:  %{target}-binutils >= 1:2.23, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel, flex
@@ -41,6 +42,14 @@ platform.
 
 pushd gcc-%{version}
 %patch0 -p2 -b .mint8
+%patch1 -p2 -b .config
+
+pushd libiberty
+autoconf -f
+popd
+pushd intl
+autoconf -f
+popd
 
 contrib/gcc_update --touch
 popd
@@ -73,6 +82,9 @@ acv=$(autoreconf --version | head -n1)
 acv=${acv##* }
 sed -i "/_GCC_AUTOCONF_VERSION/s/2.64/$acv/" config/override.m4
 autoreconf -fiv
+pushd intl
+autoreconf -ivf
+popd
 popd
 mkdir -p gcc-%{target}
 pushd gcc-%{target}
@@ -126,6 +138,18 @@ rm -r $RPM_BUILD_ROOT%{_libexecdir}/gcc/%{target}/%{version}/install-tools ||:
 
 
 %changelog
+* Mon Nov 09 2020 Michal Hlavinka <mhlavink@redhat.com> - 1:10.2.0-1
+- updated to 10.2.0
+
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:9.2.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
+* Mon Jul 20 2020 Jeff Law <law@redhat.com> - 1:9.2.0-5
+- Fix more broken configure tests compromised by LTO
+
+* Tue Jun 30 2020 Jeff Law <law@redhat.com> - 1:9.2.0-4
+- Fix broken configure test compromised by LTO
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:9.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
