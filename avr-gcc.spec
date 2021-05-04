@@ -1,7 +1,7 @@
 %define target avr
 
 Name:           %{target}-gcc
-Version:        10.2.0
+Version:        11.1.0
 Release:        1%{?dist}
 Epoch:          1
 Summary:        Cross Compiling GNU GCC targeted at %{target}
@@ -16,7 +16,9 @@ Patch1:		avr-gcc-config.patch
 BuildRequires:  gcc-c++
 BuildRequires:  %{target}-binutils >= 1:2.23, zlib-devel gawk gmp-devel mpfr-devel libmpc-devel, flex
 #for autoreconf:
-BuildRequires:  gettext-devel autoconf automake
+BuildRequires:  gettext-devel automake
+BuildRequires:  autoconf = 2.69
+BuildRequires: make
 Requires:       %{target}-binutils >= 1:2.23
 Provides:       bundled(libiberty)
 
@@ -138,6 +140,15 @@ rm -r $RPM_BUILD_ROOT%{_libexecdir}/gcc/%{target}/%{version}/install-tools ||:
 
 
 %changelog
+* Tue May 04 2021 Michal Hlavinka <mhlavink@redhat.com> - 1:11.1.0-1
+- updated to 11.1.0
+
+* Sun Apr 11 2021 Michal Hlavinka <mhlavink@redhat.com> - 1:10.2.0-3
+- add explicit requirement for autoconf 2.69
+
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1:10.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Mon Nov 09 2020 Michal Hlavinka <mhlavink@redhat.com> - 1:10.2.0-1
 - updated to 10.2.0
 
