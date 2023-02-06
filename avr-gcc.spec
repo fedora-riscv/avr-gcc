@@ -4,7 +4,7 @@ Name:           %{target}-gcc
 #FIXME:11.2 fails with Werror-format-security https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100431
 #revert -Wno-format-security once fix is available
 Version:        12.2.0
-Release:        1%{?dist}
+Release:        1.rv64%{?dist}
 Epoch:          1
 Summary:        Cross Compiling GNU GCC targeted at %{target}
 License:        GPLv2+
@@ -115,6 +115,9 @@ popd
 rm -r $RPM_BUILD_ROOT%{_infodir}
 rm -r $RPM_BUILD_ROOT%{_mandir}/man7
 rm    $RPM_BUILD_ROOT%{_libdir}/libiberty.a ||:
+%ifarch riscv64
+rm    $RPM_BUILD_ROOT%{_libdir}/lp64d/libcc1* ||:
+%endif
 rm    $RPM_BUILD_ROOT%{_libdir}/libcc1* ||:
 # and these aren't usefull for embedded targets
 rm -r $RPM_BUILD_ROOT/usr/lib/gcc/%{target}/%{version}/install-tools ||:
@@ -146,6 +149,9 @@ rm -r $RPM_BUILD_ROOT%{_libexecdir}/gcc/%{target}/%{version}/install-tools ||:
 
 
 %changelog
+* Tue Feb 07 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 1:12.2.0-1.rv64
+- Fix build on riscv64.
+
 * Mon Aug 29 2022 Michal Hlavinka <mhlavink@redhat.com> - 1:12.2.0-1
 - updated to 12.2.0
 
